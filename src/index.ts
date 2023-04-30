@@ -5,6 +5,8 @@ import fs from "fs";
 const pjson = JSON.parse(fs.readFileSync("package.json").toString());
 const ejson = JSON.parse(fs.readFileSync("environment.json").toString());
 
+export { pjson, ejson }
+
 const app = express();
 
 app.get("/", async (req, res) => {
