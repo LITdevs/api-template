@@ -1,4 +1,4 @@
 {
-	"environment": "dev",
-	"name": "LITidentity Development"
+	"environment": "prod",
+	"name": "LITidentity"
 }
