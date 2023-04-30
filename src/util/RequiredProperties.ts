@@ -1,6 +1,21 @@
 import Reply from "../classes/Reply/Reply.js";
 
-export default function RequiredProperties(strings: any[]) {
+interface IRequiredProperty {
+    property: string,
+    type?: string,
+    optional?: boolean
+    min?: number,
+    max?: number,
+    minLength?: number,
+    maxLength?: number,
+    trim?: boolean,
+    enum?: string[],
+    regex?: RegExp,
+    isArray?: boolean,
+    custom?: (value: any) => {pass: boolean, reason: string}
+}
+
+export default function RequiredProperties(strings: (string|IRequiredProperty)[]) {
     return (req, res, next) => {
         let missingProperties : string[] = [];
         let propertyViolations : {property : string, reason: string}[] = [];
