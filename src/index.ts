@@ -1,13 +1,17 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from 'express';
-import Reply from "./classes/Reply/Reply.js";
 import fs from "fs";
-import RequiredProperties from "./util/RequiredProperties.js";
+import NotFoundReply from "./classes/Reply/NotFoundReply.js";
+import Database from "./db.js";
 
 const pjson = JSON.parse(fs.readFileSync("package.json").toString());
 const ejson = JSON.parse(fs.readFileSync("environment.json").toString());
+if (ejson.env === "prod") process.env.NODE_ENV = "production";
 
 export { pjson, ejson }
 
+const database = new Database();
 const app = express();
 
 // Set up body parsers
@@ -33,44 +37,18 @@ app.use((req, res, next) => {
 app.locals.pjson = pjson;
 app.locals.ejson = ejson;
 
-app.get("/", async (req, res) => {
-    res.reply(new Reply({
-        response: {
-            message: "OK",
-            version: pjson.version,
-            env: ejson
-        }}));
-})
+// Set up routes
+import v1_home from "./routes/v1/home.js";
+app.use("/v1", v1_home);
 
-app.post("/", RequiredProperties([
-    "one",
-    {property: "two"},
-    {property: "three", optional: true},
-    {property: "four", optional: true, isArray: true},
-    {property: "five", min: 0, max: 5},
-    {property: "six", minLength: 2, maxLength: 5},
-    {property: "seven", trim: true, minLength: 2, maxLength: 5},
-    {property: "eight", enum: ["one", "two", "three"]},
-    {property: "nine", regex: /^[a-zA-Z]+$/},
-    {property: "ten", custom: (value) => { return {pass: value == "ten", reason: "Meow the cat ate your request :3"} }}
-]), async (req, res) => {
-    res.reply(new Reply({
-        response: {
-            message: "OK",
-            version: pjson.version,
-            env: ejson
-        }}));
-})
-
+// Catch all other requests with 404
 app.all("*", async (req, res) => {
-    res.reply(new Reply({
-        responseCode: 404,
-        success: false,
-        response: {
-            message: "Not found"
-        }}));
+    res.reply(new NotFoundReply());
 })
 
-app.listen(process.env.PORT || 13717, () => {
-    console.log("Listening on port 13717");
-})
+database.events.once("ready", () => {
+    app.listen(process.env.PORT || 13717, async () => {
+        console.log(`${await database.Test.countDocuments({})} test documents in database`)
+        console.log("Listening on port 13717");
+    });
+});

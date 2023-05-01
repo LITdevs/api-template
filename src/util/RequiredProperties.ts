@@ -1,4 +1,5 @@
 import Reply from "../classes/Reply/Reply.js";
+import BadRequestReply from "../classes/Reply/BadRequestReply.js";
 
 interface IRequiredProperty {
     property: string,
@@ -138,25 +139,17 @@ export default function RequiredProperties(strings: (string|IRequiredProperty)[]
             }
         })
         if (missingProperties.length > 0) {
-            res.reply(new Reply({
-                responseCode: 400,
-                success: false,
-                response: {
-                    message: "Missing required properties",
-                    missing: missingProperties
-                }
-            }))
+            res.reply(new BadRequestReply({
+                message: "Missing required properties",
+                missing: missingProperties
+            }));
             return;
         }
         if (propertyViolations.length > 0) {
-            res.reply(new Reply({
-                responseCode: 400,
-                success: false,
-                response: {
-                    message: "Property validation failed",
-                    violations: propertyViolations
-                }
-            }))
+            res.reply(new BadRequestReply({
+                message: "Property validation failed",
+                violations: propertyViolations
+            }));
             return;
         }
         next();
