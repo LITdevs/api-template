@@ -1,4 +1,8 @@
-import Reply from "../classes/Reply/Reply.js";
+/**
+ * Emilia's Required Property Middlewareinator!
+ * Please provide attribution if you use this :3
+ */
+
 import BadRequestReply from "../classes/Reply/BadRequestReply.js";
 
 interface IRequiredProperty {
@@ -51,6 +55,9 @@ export default function RequiredProperties(strings: (string|IRequiredProperty)[]
                         if (!string.optional) {
                             missingProperties.push(string.property)
                         }
+                        // Hi! It's me from the future.
+                        // It took me a couple seconds to figure out why we return here
+                        // It's because the property isn't present, so validation would error regardless of optional
                         return;
                     }
                 }
@@ -63,6 +70,7 @@ export default function RequiredProperties(strings: (string|IRequiredProperty)[]
                 }
 
                 // Check regex
+                // TODO: Add custom reason text for regex
                 if (string.regex) {
                     if (!string.regex.test(req.body[string.property])) {
                         propertyViolations.push({property: string.property, reason: `${string.property} must match regex ${string.regex}`});

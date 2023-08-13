@@ -3,13 +3,7 @@ dotenv.config();
 import mongoose from 'mongoose';
 import EventEmitter from "events";
 import testSchema from "./schemas/testSchema.js";
-/*import loginUserSchema from './schemas/loginUserSchema.js'
-import userAvatarSchema from './schemas/userAvatarSchema.js'
-import quarkSchema from "./schemas/quarkSchema.js";
-import channelSchema from "./schemas/channelSchema.js";
-import messageSchema from "./schemas/messageSchema.js";
-import quarkOrderSchema from "./schemas/quarkOrderSchema.js";
-import nicknameSchema from "./schemas/nicknameSchema.js";*/
+
 
 export default class Database {
 
@@ -43,12 +37,6 @@ export default class Database {
     #onOpen() {
         console.log("Database connection established");
         this.Test = this.db.model('test', testSchema);
-        /*Avatars = lqdb.model('avatar', userAvatarSchema)
-        Quarks = lqdb.model('quark', quarkSchema)
-        Channels = lqdb.model('channel', channelSchema)
-        Messages = lqdb.model('message', messageSchema)
-        QuarkOrders = lqdb.model('quarkOrder', quarkOrderSchema)
-        Nicks = lqdb.model('nick', nicknameSchema)*/
         this.events.emit("ready");
     }
 }
