@@ -1,10 +1,10 @@
 {
 	"type": "module",
-	"name": "litidentity",
+	"name": "api-template",
 	"version": "1.0.0",
-	"description": "LIT Devs identity provider",
+	"description": "Express backend template",
 	"exports": "./src/index.ts",
-	"repository": "https://github.com/LITdevs/LITidentity",
+	"repository": "https://github.com/LITdevs/api-template",
 	"author": "Emilia",
 	"scripts": {
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
