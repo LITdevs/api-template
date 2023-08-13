@@ -1,4 +1,4 @@
 {
-	"environment": "dev",
-	"name": "API Development"
+	"environment": "prod",
+	"name": "API (real edition)"
 }
