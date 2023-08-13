@@ -1,5 +1,5 @@
 import express from 'express';
-import RequiredProperties from "../../util/RequiredProperties.js";
+import RequiredProperties from "../../middleware/RequiredProperties.js";
 import Reply from "../../classes/Reply/Reply.js";
 import ServerErrorReply from "../../classes/Reply/ServerErrorReply.js";
 import Database from "../../db.js";
